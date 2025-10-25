@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JB VTC RÉUNION - Carte de Visite Digitale</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00d4ff;
+            --primary-dark: #0088cc;
+            --accent: #00fff7;
+            --purple: #8b5cf6;
+            --pink: #ec4899;
+        }
+
+        /* Ultra Premium Background */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated Gradient Background */
+        .gradient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #000000, #0a0a2e, #16213e, #0f3460);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            z-index: 0;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating Orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.4;
+            z-index: 1;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .orb1 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+            top: -100px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+
+        .orb2 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, var(--purple) 0%, transparent 70%);
+            bottom: -100px;
+            right: -100px;
+            animation-delay: 5s;
+        }
+
+        .orb3 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--pink) 0%, transparent 70%);
+            top: 50%;
+            right: -150px;
+            animation-delay: 10s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(50px, -50px) scale(1.1); }
+            66% { transform: translate(-30px, 30px) scale(0.9); }
+        }
+
+        /* Grid Lines */
+        .grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 1;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* Main Card */
+        .card-container {
+            max-width: 420px;
+            width: 100%;
+            background: rgba(10, 10, 30, 0.7);
+            backdrop-filter: blur(40px) saturate(180%);
+            border-radius: 35px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            box-shadow: 
+                0 8px 32px 0 rgba(0, 212, 255, 0.2),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+            position: relative;
+            z-index: 10;
+            animation: cardEntrance 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes cardEntrance {
+            0% {
+                opacity: 0;
+                transform: translateY(50px) rotateX(20deg) scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) rotateX(0) scale(1);
+            }
+        }
+
+        /* Glow Effect */
+        .card-container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--primary), var(--purple), var(--pink), var(--accent));
+            border-radius: 35px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            animation: rotate 3s linear infinite;
+        }
+
+        .card-container:hover::before {
+            opacity: 0.7;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Header */
+        .card-header {
+            padding: 50px 30px 40px;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+        }
+
+        .logo-container {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 25px;
+            position: relative;
+            animation: logoFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+        }
+
+        .logo-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            background: linear-gradient(45deg, var(--primary), var(--purple)) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: ringPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes ringPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.7; }
+        }
+
+        .logo-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            box-shadow: 
+                0 20px 60px rgba(0, 212, 255, 0.3),
+                inset 0 0 30px rgba(0, 212, 255, 0.1);
+        }
+
+        .company-name {
+            font-size: 32px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+        }
+
+        .company-tagline {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .company-location {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        /* Stats Pills */
+        .stats-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 25px;
+        }
+
+        .stat-pill {
+            flex: 1;
+            padding: 18px 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 18px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-pill::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .stat-pill:hover::before {
+            left: 100%;
+        }
+
+        .stat-pill:hover {
+            background: rgba(0, 212, 255, 0.1);
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .stat-value {
+            font-size: 26px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 5px;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        /* Action Grid */
+        .action-grid {
+            padding: 0 25px 25px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .action-card {
+            padding: 25px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(0, 212, 255, 0.15);
+            border-radius: 20px;
+            text-decoration: none;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-card::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.2) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .action-card:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .action-card:hover {
+            transform: translateY(-8px) scale(1.05);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.3);
+        }
+
+        .action-icon {
+            font-size: 40px;
+            position: relative;
+            z-index: 1;
+            filter: drop-shadow(0 0 15px rgba(0, 212, 255, 0.6));
+        }
+
+        .action-label {
+            font-size: 14px;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* CTA Button */
+        .cta-section {
+            padding: 0 25px 25px;
+        }
+
+        .cta-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            padding: 22px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            border: none;
+            border-radius: 20px;
+            color: #000;
+            font-weight: 900;
+            font-size: 16px;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 40px rgba(0, 212, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0, 212, 255, 0.6);
+        }
+
+        /* Services */
+        .services-section {
+            padding: 0 25px 25px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .service-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            border-radius: 16px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .service-item:hover {
+            background: rgba(0, 212, 255, 0.05);
+            border-color: var(--primary);
+            transform: translateX(8px);
+        }
+
+        .service-icon {
+            font-size: 28px;
+            margin-right: 15px;
+            filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.5));
+        }
+
+        .service-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 3px;
+        }
+
+        .service-desc {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Contact */
+        .contact-section {
+            padding: 0 25px 25px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            border-radius: 16px;
+            margin-bottom: 10px;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background: rgba(0, 212, 255, 0.05);
+            border-color: var(--primary);
+            transform: translateX(8px);
+        }
+
+        .contact-icon {
+            font-size: 22px;
+            margin-right: 14px;
+            color: var(--primary);
+            filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.5));
+        }
+
+        /* Save Button */
+        .save-section {
+            padding: 0 25px 30px;
+        }
+
+        .save-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 18px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .save-btn:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        .card-footer {
+            padding: 25px;
+            text-align: center;
+            border-top: 1px solid rgba(0, 212, 255, 0.1);
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .footer-text {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 12px;
+        }
+
+        .nfc-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 25px;
+            font-size: 11px;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            body { padding: 10px; }
+            .card-container { border-radius: 30px; }
+            .logo-container { width: 120px; height: 120px; }
+            .logo-inner { font-size: 50px; }
+            .company-name { font-size: 28px; }
+            .action-grid { gap: 10px; }
+            .action-card { padding: 20px 15px; }
+            .action-icon { font-size: 36px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="gradient-bg"></div>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+    <div class="grid"></div>
+
+    <div class="card-container">
+        <!-- Header -->
+        <div class="card-header">
+            <div class="logo-container">
+                <div class="logo-ring"></div>
+                <div class="logo-inner">🚗</div>
+            </div>
+            <h1 class="company-name">JB VTC RÉUNION</h1>
+            <p class="company-tagline">Chauffeur Privé Premium</p>
+            <span class="company-location">📍 Saint-Leu & Saint-Paul</span>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-row">
+            <div class="stat-pill">
+                <div class="stat-value">24/7</div>
+                <div class="stat-label">Service</div>
+            </div>
+            <div class="stat-pill">
+                <div class="stat-value">5★</div>
+                <div class="stat-label">Avis</div>
+            </div>
+            <div class="stat-pill">
+                <div class="stat-value">100%</div>
+                <div class="stat-label">Satisfait</div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="action-grid">
+            <a href="tel:+262693104519" class="action-card">
+                <div class="action-icon">📞</div>
+                <div class="action-label">Appeler</div>
+            </a>
+            <a href="https://www.jb-vtc.fr/reserver-vtc-a-la-reunion" target="_blank" class="action-card">
+                <div class="action-icon">🚗</div>
+                <div class="action-label">Réserver</div>
+            </a>
+            <a href="mailto:contact.jbvtc@gmail.com" class="action-card">
+                <div class="action-icon">📧</div>
+                <div class="action-label">Email</div>
+            </a>
+            <a href="https://www.jb-vtc.fr" target="_blank" class="action-card">
+                <div class="action-icon">🌐</div>
+                <div class="action-label">Site Web</div>
+            </a>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-section">
+            <a href="https://www.jb-vtc.fr/tarif-transfert-aeroport" target="_blank" class="cta-btn">
+                <span>✈️</span>
+                <span>Transfert Aéroport Roland Garros</span>
+            </a>
+        </div>
+
+        <!-- Services -->
+        <div class="services-section">
+            <h2 class="section-title">Services Premium</h2>
+            
+            <div class="service-item">
+                <div class="service-icon">✈️</div>
+                <div>
+                    <div class="service-name">Transferts Aéroport</div>
+                    <div class="service-desc">24/7 • Suivi des vols</div>
+                </div>
+            </div>
+
+            <div class="service-item">
+                <div class="service-icon">🏝️</div>
+                <div>
+                    <div class="service-name">Circuits Touristiques</div>
+                    <div class="service-desc">Découverte de l'île</div>
+                </div>
+            </div>
+
+            <div class="service-item">
+                <div class="service-icon">💼</div>
+                <div>
+                    <div class="service-name">Déplacements Pro</div>
+                    <div class="service-desc">Discret & ponctuel</div>
+                </div>
+            </div>
+
+            <div class="service-item">
+                <div class="service-icon">🎉</div>
+                <div>
+                    <div class="service-name">Événements Privés</div>
+                    <div class="service-desc">Mariages & soirées</div>
+                </div>
+            </div>
+
+            <div class="service-item">
+                <div class="service-icon">👥</div>
+                <div>
+                    <div class="service-name">Véhicule 7 Places</div>
+                    <div class="service-desc">Groupes & familles</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact -->
+        <div class="contact-section">
+            <h2 class="section-title">Contact Direct</h2>
+            
+            <a href="tel:+262693104519" class="contact-item">
+                <div class="contact-icon">📱</div>
+                <div>06 93 10 45 19</div>
+            </a>
+
+            <a href="mailto:contact.jbvtc@gmail.com" class="contact-item">
+                <div class="contact-icon">📧</div>
+                <div>contact.jbvtc@gmail.com</div>
+            </a>
+
+            <a href="https://www.facebook.com/JBVTCReunion" target="_blank" class="contact-item">
+                <div class="contact-icon">📘</div>
+                <div>JB VTC RÉUNION</div>
+            </a>
+
+            <a href="https://www.jb-vtc.fr" target="_blank" class="contact-item">
+                <div class="contact-icon">🌐</div>
+                <div>www.jb-vtc.fr</div>
+            </a>
+        </div>
+
+        <!-- Save -->
+        <div class="save-section">
+            <a href="jb-vtc-contact.vcf" download class="save-btn">
+                <span>📲</span>
+                <span>Enregistrer le Contact</span>
+            </a>
+        </div>
+
+        <!-- Footer -->
+        <div class="card-footer">
+            <p class="footer-text">Excellence • Confort • Ponctualité</p>
+            <span class="nfc-badge">
+                <span>💳</span>
+                <span>Compatible NFC</span>
+            </span>
+        </div>
+    </div>
+</body>
+</html>
